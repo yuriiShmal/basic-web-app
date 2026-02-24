@@ -69,5 +69,40 @@ export default function QueryProcessor(query: string): string {
     return result !== undefined ? result.toString() : "None found";
   }
 
+  if (query.toLowerCase().includes("minus")) {
+  const numbers = query.match(/-?\d+(\.\d+)?/g)?.map(Number);
+
+  if (!numbers || numbers.length !== 2) {
+    return "Invalid input";
+  }
+
+  const result = numbers[0] - numbers[1];
+  return result.toString();
+}
+
+if (query.toLowerCase().includes("prime")) {
+  const numbers = query.match(/-?\d+(\.\d+)?/g)?.map(Number);
+
+  if (!numbers || numbers.length === 0) {
+    return "No numbers found";
+  }
+
+  const isPrime = (num: number): boolean => {
+    if (num <= 1 || !Number.isInteger(num)) return false;
+    if (num === 2) return true;
+    if (num % 2 === 0) return false;
+
+    for (let i = 3; i <= Math.sqrt(num); i += 2) {
+      if (num % i === 0) return false;
+    }
+
+    return true;
+  };
+
+  const primes = numbers.filter(isPrime);
+
+  return primes.length > 0 ? primes.join(", ") : "None";
+}
+
   return "";
 }
