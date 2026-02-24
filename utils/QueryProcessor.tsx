@@ -15,5 +15,17 @@ export default function QueryProcessor(query: string): string {
     return "yshmal";
   }
 
+  if (query.toLowerCase().includes("largest")) {
+    // Extract numbers (supports negatives and decimals)
+    const numbers = query.match(/-?\d+(\.\d+)?/g)?.map(Number);
+
+    if (!numbers || numbers.length === 0) {
+      return "No numbers found";
+    }
+
+    const largest = Math.max(...numbers);
+    return largest.toString();
+  }
+
   return "";
 }
