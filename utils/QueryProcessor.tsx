@@ -126,5 +126,34 @@ export default function QueryProcessor(query: string): string {
     return result.toString();
   }
 
+  if (query.toLowerCase().includes("anagram of")) {
+  const lower = query.toLowerCase();
+
+  // Extract base word (e.g., "listen")
+  const baseMatch = lower.match(/anagram of\s+(\w+)/);
+  if (!baseMatch) return "Invalid input";
+
+  const baseWord = baseMatch[1];
+
+  // Extract candidate words after colon
+  const parts = lower.split(":");
+  if (parts.length < 2) return "Invalid input";
+
+  const candidates = parts[1]
+    .split(",")
+    .map(word => word.trim().replace(/[^a-z]/g, ""));
+
+  const sortWord = (word: string) =>
+    word.split("").sort().join("");
+
+  const sortedBase = sortWord(baseWord);
+
+  const match = candidates.find(
+    word => word.length === baseWord.length && sortWord(word) === sortedBase
+  );
+
+  return match ? match : "None";
+}
+
   return "";
 }
