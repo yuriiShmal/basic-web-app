@@ -27,5 +27,17 @@ export default function QueryProcessor(query: string): string {
     return largest.toString();
   }
 
+  if (query.toLowerCase().includes("plus")) {
+    // Extract numbers (supports negatives and decimals)
+    const numbers = query.match(/-?\d+(\.\d+)?/g)?.map(Number);
+
+    if (!numbers || numbers.length === 0) {
+      return "No numbers found";
+    }
+
+    const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+    return sum.toString();
+  }
+
   return "";
 }
