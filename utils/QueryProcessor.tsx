@@ -39,6 +39,18 @@ export default function QueryProcessor(query: string): string {
     return sum.toString();
   }
 
+  if (query.toLowerCase().includes("multiplied")) {
+    // Extract numbers (supports negatives and decimals)
+    const numbers = query.match(/-?\d+(\.\d+)?/g)?.map(Number);
+
+    if (!numbers || numbers.length === 0) {
+      return "No numbers found";
+    }
+
+    const sum = numbers.reduce((acc, curr) => acc * curr, 1);
+    return sum.toString();
+  }
+
   if (query.toLowerCase().includes("both a square and a cube")) {
     const numbers = query.match(/-?\d+(\.\d+)?/g)?.map(Number);
 
